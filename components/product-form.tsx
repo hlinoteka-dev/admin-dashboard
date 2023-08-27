@@ -26,7 +26,7 @@ export default function ProductForm({
 		e.preventDefault()
 		const data = { name, price, author, size, topProduct, newProduct }
 		if (_id) {
-			await axios.put(`/api/products?id=${_id}`, {...data, _id})
+			await axios.put(`/api/products?id=${_id}`, { ...data, _id })
 		} else {
 			await axios.post('/api/products', data)
 		}
@@ -43,28 +43,29 @@ export default function ProductForm({
 						<label className="block text-sm font-medium mb-1" htmlFor="productName">
 							Name
 						</label>
-						<input id="productName" className="form-input w-full" type="text" placeholder="Beautiful Pot" value={name} onChange={e => setName(e.target.value)} />
+						<input id="productName" className="form-input w-full" type="text" placeholder="Beautiful Pot" value={name} onChange={e => setName(e.target.value)} autoComplete="off"/>
 					</div>
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productPrice">
 							Price
 						</label>
-						<input id="productPrice" className="form-input w-full" type="text" placeholder="1 000 CZK" value={price} onChange={e => setPrice(e.target.value)} />
+						<input id="productPrice" className="form-input w-full" type="number" placeholder="1 000 CZK" value={price} onChange={e => setPrice(e.target.value)} autoComplete="off"/>
 					</div>
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productAuthor">
 							Author
 						</label>
-						<input id="productAuthor" className="form-input w-full" type="text" placeholder="Jan Hus" value={author} onChange={e => setAuthor(e.target.value)} />
+						<input id="productAuthor" className="form-input w-full" type="text" placeholder="Jan Hus" value={author} onChange={e => setAuthor(e.target.value)} autoComplete="off"/>
 					</div>
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productSize">
 							Size
 						</label>
-						<input id="productSize" className="form-input w-full" type="text" placeholder="V: 20 cm Š: 30 cm" value={size} onChange={e => setSize(e.target.value)} />
+						<input id="productSize" className="form-input w-full" type="text" placeholder="V: 20 cm Š: 30 cm" value={size} onChange={e => setSize(e.target.value)} autoComplete="off"/>
 					</div>
 				</div>
 				<div className="px-5 py-6">
+					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Params</h2>
 					<div className="flex gap-4">
 						<div className="">
 							<label className="flex items-center">
@@ -79,7 +80,9 @@ export default function ProductForm({
 							</label>
 						</div>
 					</div>
-					<h2 className="mt-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
+				</div>
+				<div className="px-5 py-6">
+					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
 				</div>
 			</div>
 			<div className="flex gap-x-4">
