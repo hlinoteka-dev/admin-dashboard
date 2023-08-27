@@ -3,13 +3,13 @@
 import ProductsTableItem from './products-table-item'
 
 export interface Product {
-	_id: string
-	name: string
-	price: string
-	author: string
-	size: string
-	topProduct: boolean
-	newProduct: boolean
+	_id?: string
+	name?: string
+	price?: string
+	author?: string
+	size?: string
+	topProduct?: boolean
+	newProduct?: boolean
 }
 
 export default function ProductsTable({ products }: { products: Product[] }) {

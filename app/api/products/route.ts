@@ -3,9 +3,8 @@ import { mongooseConnect } from "@/lib/mongoose"
 
 export async function GET(request: Request) {
 	await mongooseConnect()
-	// check for query id
-	const url = new URL(request.url); // Convert the URL string to a URL object
-	const id = url.searchParams.get("id"); // Get the value of the "id" parameter from searchParams
+	const url = new URL(request.url)
+	const id = url.searchParams.get("id")
 	if (id) {
 		const product = await Product.findOne({ _id: id })
 		return new Response(JSON.stringify(product))
@@ -42,4 +41,16 @@ export async function PUT(request: Request) {
 		newProduct,
 	})
 	return new Response("Product updated")
+}
+
+export async function DELETE(request: Request) {
+	await mongooseConnect()
+	const url = new URL(request.url)
+	const id = url.searchParams.get("id")
+	if (id) {
+		await Product.deleteOne({ _id: id })
+		return new Response("Product deleted")
+	} else {
+		return new Response("Product not deleted")
+	}
 }

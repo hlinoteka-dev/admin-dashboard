@@ -2,10 +2,18 @@
 
 import { useState } from 'react'
 import ModalBlank from '@/components/modal-blank'
+import { Product } from './products-table'
+import axios from 'axios'
 
-export default function ProductsTableItemDelete({ productName }: { productName: string }) {
+export default function ProductsTableItemDelete({ product }: { product: Product }) {
 
 	const [dangerModalOpen, setDangerModalOpen] = useState<boolean>(false)
+
+	async function deleteProduct() {
+		setDangerModalOpen(false)
+		await axios.delete(`/api/products?id=${product._id}`)
+		window.location.reload()
+	}
 
 	return (
 		<>
@@ -29,18 +37,18 @@ export default function ProductsTableItemDelete({ productName }: { productName: 
 					<div>
 						{/* Modal header */}
 						<div className="mb-2">
-							<div className="text-lg font-semibold text-slate-800 dark:text-slate-100">Delete {productName}?</div>
+							<div className="text-lg font-semibold text-slate-800 dark:text-slate-100">Delete {product.name}?</div>
 						</div>
 						{/* Modal content */}
 						<div className="text-sm mb-10">
 							<div className="space-y-2">
-								<p>This action cannot be undone. This will permanently delete <span className="font-bold">{productName}</span> from your store.</p>
+								<p>This action cannot be undone. This will permanently delete <span className="font-bold">{product.name}</span> from your store.</p>
 							</div>
 						</div>
 						{/* Modal footer */}
 						<div className="flex flex-wrap justify-end space-x-2">
 							<button className="btn-sm border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300" onClick={() => { setDangerModalOpen(false) }}>Cancel</button>
-							<button className="btn-sm bg-rose-500 hover:bg-rose-600 text-white" onClick={() => { setDangerModalOpen(false) }}>Yes, Delete it</button>
+							<button className="btn-sm bg-rose-500 hover:bg-rose-600 text-white" onClick={() => { deleteProduct() }}>Yes, Delete it</button>
 						</div>
 					</div>
 				</div>
