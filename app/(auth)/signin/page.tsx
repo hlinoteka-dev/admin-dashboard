@@ -8,21 +8,25 @@ import { getServerSession } from 'next-auth/next'
 import { redirect } from 'next/navigation'
 
 import AuthHeader from '../auth-header'
+import AuthImage from '../auth-image'
 import GoogleAuthButton from './google-auth-button'
-
+ 
 export default async function SignIn() {
 	const session = await getServerSession(options)
 	if (session) redirect('/')
 	return (
 		<main className="bg-white dark:bg-slate-900">
+
 			<div className="relative md:flex">
 
 				{/* Content */}
 				<div className="md:w-1/2">
-					<div className="min-h-[100dvh] h-full flex flex-col justify-center after:flex-1">
+					<div className="min-h-[100dvh] h-full flex flex-col after:flex-1">
+
 						<AuthHeader />
+
 						<div className="max-w-sm mx-auto w-full py-8">
-							<h1 className="text-3xl text-slate-800 dark:text-slate-100 font-bold mb-6">Welcome back!</h1>
+							<h1 className="text-3xl text-slate-800 dark:text-slate-100 font-bold mb-6">Welcome back! 😊</h1>
 							<div className="flex items-center justify-between mt-6">
 								<GoogleAuthButton />
 							</div>
@@ -39,9 +43,14 @@ export default async function SignIn() {
 								</div>
 							</div>
 						</div>
+
 					</div>
 				</div>
+
+				<AuthImage />
+
 			</div>
+
 		</main>
 	)
 }
