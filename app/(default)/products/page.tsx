@@ -1,24 +1,21 @@
+'use client'
+
 export const metadata = {
 	title: 'Products - Hlinoteka'
 }
 
+import axios from 'axios'
 import Link from 'next/link'
 import ProductsTable from './products-table'
+import { useState, useEffect } from 'react'
 
 function ProductsContent() {
-
-	// Some dummy products data
-	const products = [
-		{
-			id: 0,
-			name: 'Some Cool Pot',
-			price: '1 199 CZK',
-			author: 'Yo Mama',
-			size: 'V: 20cm, H: 10cm',
-			top: true,
-			new: false,
-		},
-	]
+	const [products, setProducts] = useState([])
+	useEffect(() => { 
+		axios.get('/api/products')
+			.then(res => setProducts(res.data))
+			.catch(err => console.log(err))
+	}, [])
 
 	return (
 		<div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">

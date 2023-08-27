@@ -3,13 +3,13 @@
 import ProductsTableItem from './products-table-item'
 
 export interface Product {
-	id: number
+	_id: string
 	name: string
 	price: string
 	author: string
 	size: string
-	top: boolean
-	new: boolean
+	topProduct: boolean
+	newProduct: boolean
 }
 
 export default function ProductsTable({ products }: { products: Product[] }) {
@@ -17,7 +17,7 @@ export default function ProductsTable({ products }: { products: Product[] }) {
 	return (
 		<div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
 			<header className="px-5 py-4">
-				<h2 className="font-semibold text-slate-800 dark:text-slate-100">Products <span className="text-slate-400 dark:text-slate-500 font-medium">67</span></h2>
+				<h2 className="font-semibold text-slate-800 dark:text-slate-100">Products <span className="text-slate-400 dark:text-slate-500 font-medium">{products.length}</span></h2>
 			</header>
 			<div>
 
@@ -40,10 +40,7 @@ export default function ProductsTable({ products }: { products: Product[] }) {
 									<div className="font-semibold text-left">Size</div>
 								</th>
 								<th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-									<div className="font-semibold text-left">Top</div>
-								</th>
-								<th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
-									<div className="font-semibold text-left">New</div>
+									<div className="font-semibold text-left">Params</div>
 								</th>
 								<th className="px-2 first:pl-5 last:pr-5 py-3 whitespace-nowrap">
 									<div className="font-semibold text-left">Actions</div>
@@ -54,7 +51,7 @@ export default function ProductsTable({ products }: { products: Product[] }) {
 						<tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
 							{products.map(product => (
 								<ProductsTableItem
-									key={product.id}
+									key={product._id}
 									product={product} />
 							))}
 						</tbody>
