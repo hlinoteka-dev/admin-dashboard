@@ -12,6 +12,7 @@ export default function ProductForm({ id }: { id?: string }) {
 	const [size, setSize] = useState('')
 	const [topProduct, setTopProduct] = useState(false)
 	const [newProduct, setNewProduct] = useState(false)
+	const [images, setImages] = useState({}) as any[]
 	const [getOut, setGetOut] = useState(false)
 	useEffect(() => {
 		if (!id) return
@@ -29,7 +30,7 @@ export default function ProductForm({ id }: { id?: string }) {
 		e.preventDefault()
 		const data = { name, price, author, size, topProduct, newProduct }
 		if (id) {
-			await axios.put(`/api/products?id=${id}`, { ...data, _id:id })
+			await axios.put(`/api/products?id=${id}`, { ...data, _id: id })
 		} else {
 			await axios.post('/api/products', data)
 		}
@@ -86,6 +87,15 @@ export default function ProductForm({ id }: { id?: string }) {
 				</div>
 				<div className="px-5 py-6">
 					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
+					<div className="flex gap-4">
+						<label className="flex flex-col btn w-24 h-24 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300 cursor-pointer">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+								<path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+							</svg>
+							<span>Upload</span>
+							<input type="file" className="hidden" />
+						</label>
+					</div>
 				</div>
 			</div>
 			<div className="flex gap-x-4">
