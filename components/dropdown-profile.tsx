@@ -45,9 +45,6 @@ export default function DropdownProfile({ align }: {
 							</button>
 						)}
 					</Menu.Item>
-					<Menu.Item as="li">
-						{session?.user?.image}
-					</Menu.Item>
 				</Menu.Items>
 			</Transition>
 		</Menu>
