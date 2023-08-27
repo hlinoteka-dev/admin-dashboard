@@ -1,32 +1,35 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import axios from "axios"
 import Link from "next/link"
 import { redirect } from "next/navigation"
-import { Product } from "@/app/(default)/products/products-table"
 
-export default function ProductForm({
-	_id,
-	name: productName,
-	price: productPrice,
-	author: productAuthor,
-	size: productSize,
-	topProduct: productTopProduct,
-	newProduct: productNewProduct
-}: Product) {
-	const [name, setName] = useState(productName || '')
-	const [price, setPrice] = useState(productPrice || '')
-	const [author, setAuthor] = useState(productAuthor || '')
-	const [size, setSize] = useState(productSize || '')
-	const [topProduct, setTopProduct] = useState(productTopProduct || false)
-	const [newProduct, setNewProduct] = useState(productNewProduct || false)
+export default function ProductForm({ id }: { id?: string }) {
+	const [name, setName] = useState('')
+	const [price, setPrice] = useState('')
+	const [author, setAuthor] = useState('')
+	const [size, setSize] = useState('')
+	const [topProduct, setTopProduct] = useState(false)
+	const [newProduct, setNewProduct] = useState(false)
 	const [getOut, setGetOut] = useState(false)
+	useEffect(() => {
+		if (!id) return
+		axios.get(`/api/products?id=${id}`).then(res => {
+			const { name, price, author, size, topProduct, newProduct } = res.data
+			setName(name)
+			setPrice(price)
+			setAuthor(author)
+			setSize(size)
+			setTopProduct(topProduct)
+			setNewProduct(newProduct)
+		})
+	}, [id])
 	async function saveProduct(e: { preventDefault: () => void }) {
 		e.preventDefault()
 		const data = { name, price, author, size, topProduct, newProduct }
-		if (_id) {
-			await axios.put(`/api/products?id=${_id}`, { ...data, _id })
+		if (id) {
+			await axios.put(`/api/products?id=${id}`, { ...data, _id:id })
 		} else {
 			await axios.post('/api/products', data)
 		}
@@ -43,25 +46,25 @@ export default function ProductForm({
 						<label className="block text-sm font-medium mb-1" htmlFor="productName">
 							Name
 						</label>
-						<input id="productName" className="form-input w-full" type="text" placeholder="Beautiful Pot" value={name} onChange={e => setName(e.target.value)} autoComplete="off"/>
+						<input id="productName" className="form-input w-full" type="text" placeholder="Beautiful Pot" value={name} onChange={e => setName(e.target.value)} autoComplete="off" />
 					</div>
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productPrice">
 							Price
 						</label>
-						<input id="productPrice" className="form-input w-full" type="number" placeholder="1 000 CZK" value={price} onChange={e => setPrice(e.target.value)} autoComplete="off"/>
+						<input id="productPrice" className="form-input w-full" type="number" placeholder="1 000 CZK" value={price} onChange={e => setPrice(e.target.value)} autoComplete="off" />
 					</div>
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productAuthor">
 							Author
 						</label>
-						<input id="productAuthor" className="form-input w-full" type="text" placeholder="Jan Hus" value={author} onChange={e => setAuthor(e.target.value)} autoComplete="off"/>
+						<input id="productAuthor" className="form-input w-full" type="text" placeholder="Jan Hus" value={author} onChange={e => setAuthor(e.target.value)} autoComplete="off" />
 					</div>
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productSize">
 							Size
 						</label>
-						<input id="productSize" className="form-input w-full" type="text" placeholder="V: 20 cm Š: 30 cm" value={size} onChange={e => setSize(e.target.value)} autoComplete="off"/>
+						<input id="productSize" className="form-input w-full" type="text" placeholder="V: 20 cm Š: 30 cm" value={size} onChange={e => setSize(e.target.value)} autoComplete="off" />
 					</div>
 				</div>
 				<div className="px-5 py-6">
@@ -69,13 +72,13 @@ export default function ProductForm({
 					<div className="flex gap-4">
 						<div className="">
 							<label className="flex items-center">
-								<input type="checkbox" className="form-checkbox" onChange={e => setTopProduct(e.target.checked)} defaultChecked={topProduct} />
+								<input type="checkbox" className="form-checkbox" onChange={e => setTopProduct(e.target.checked)} checked={topProduct} />
 								<span className="text-sm ml-2">Top Product</span>
 							</label>
 						</div>
 						<div className="">
 							<label className="flex items-center">
-								<input type="checkbox" className="form-checkbox" onChange={e => setNewProduct(e.target.checked)} defaultChecked={newProduct} />
+								<input type="checkbox" className="form-checkbox" onChange={e => setNewProduct(e.target.checked)} checked={newProduct} />
 								<span className="text-sm ml-2">New Product</span>
 							</label>
 						</div>

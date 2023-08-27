@@ -1,19 +1,26 @@
 'use client'
 
+import axios from 'axios'
+import { useState, useEffect } from 'react'
 import ProductsTableItem from './products-table-item'
 
 export interface Product {
-	_id?: string
-	name?: string
-	price?: string
-	author?: string
-	size?: string
-	topProduct?: boolean
-	newProduct?: boolean
+	_id: string
+	name: string
+	price: string
+	author: string
+	size: string
+	topProduct: boolean
+	newProduct: boolean
 }
 
-export default function ProductsTable({ products }: { products: Product[] }) {
-
+export default function ProductsTable() {
+	const [products, setProducts] = useState([])
+	useEffect(() => {
+		axios.get('/api/products')
+			.then(res => setProducts(res.data))
+			.catch(err => console.log(err))
+	}, [])
 	return (
 		<div className="bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
 			<header className="px-5 py-4">
@@ -49,7 +56,7 @@ export default function ProductsTable({ products }: { products: Product[] }) {
 						</thead>
 						{/* Table body */}
 						<tbody className="text-sm divide-y divide-slate-200 dark:divide-slate-700">
-							{products.map(product => (
+							{products.map((product: Product) => (
 								<ProductsTableItem
 									key={product._id}
 									product={product} />
