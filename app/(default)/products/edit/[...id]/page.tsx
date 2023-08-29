@@ -2,7 +2,7 @@ export const metadata = {
 	title: 'Edit Product - Hlinoteka'
 }
 
-import ProductForm from '@/components/product-form'
+import ProductForm from '@/components/products/product-form'
 
 function EditProduct({ params }: { params: { id: string } }) {
 	const { id } = params

@@ -63,7 +63,10 @@ export default function ProductsTable() {
 							))}
 						</tbody>
 					</table>
-
+					{/* Empty state */}
+					{products.length === 0 && (
+						<div className="p-4 w-full font-medium text-center">No products</div>
+					)}
 				</div>
 			</div>
 		</div>

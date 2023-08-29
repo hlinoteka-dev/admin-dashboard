@@ -2,7 +2,7 @@ export const metadata = {
 	title: 'New Product - Hlinoteka'
 }
 
-import ProductForm from '@/components/product-form'
+import ProductForm from '@/components/products/product-form'
 
 function NewProduct() {
 	return (
