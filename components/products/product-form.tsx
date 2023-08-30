@@ -119,9 +119,9 @@ export default function ProductForm({ id }: { id: string }) {
 				</div>
 				<div className="px-5 py-6">
 					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
-					<div className="flex flex-col gap-4 mb-4">
-						{images.length > 0 && (
-							images.map((image: Image) => (
+					{images.length > 0 && (
+						<div className="flex flex-col gap-4 mb-4">
+							{images.map((image: Image) => (
 								<div key={image.url}>
 									<div className="flex gap-4 w-full">
 										<div
@@ -150,9 +150,9 @@ export default function ProductForm({ id }: { id: string }) {
 										</button>
 									</div>
 								</div>
-							))
-						)}
-					</div>
+							))}
+						</div>
+					)}
 					<div className="flex gap-6">
 						<label className="flex flex-col btn w-24 h-24 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300 cursor-pointer">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

@@ -3,6 +3,7 @@ export const metadata = {
 	description: 'Page description',
 }
 
+import Link from 'next/link'
 import { CalendarProvider } from './calendar-context'
 import CalendarNavigation from './calendar-navigation'
 import CalendarTable from './calendar-table'
@@ -13,8 +14,8 @@ export default function Calendar() {
 	// Some dummy events data
 	const events = [
 		{
-			eventStart: new Date(2023, 7, 2, 10),
-			eventEnd: new Date(2023, 7, 4, 11),
+			eventStart: new Date(2023, 7, 2, 10, 30),
+			eventEnd: new Date(2023, 7, 4, 11, 15),
 			eventName: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
 			eventColor: 'sky'
 		},
@@ -61,12 +62,12 @@ export default function Calendar() {
 						<hr className="w-px h-full bg-slate-200 dark:bg-slate-700 border-none mx-1" />
 
 						{/* Create event button */}
-						<button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">
+						<Link className="btn bg-indigo-500 hover:bg-indigo-600 text-white" href="/calendar/new">
 							<svg className="w-4 h-4 fill-current opacity-50 shrink-0" viewBox="0 0 16 16">
 								<path d="M15 7H9V1c0-.6-.4-1-1-1S7 .4 7 1v6H1c-.6 0-1 .4-1 1s.4 1 1 1h6v6c0 .6.4 1 1 1s1-.4 1-1V9h6c.6 0 1-.4 1-1s-.4-1-1-1z" />
 							</svg>
 							<span className="hidden xs:block ml-2">Create Event</span>
-						</button>
+						</Link>
 
 					</div>
 
