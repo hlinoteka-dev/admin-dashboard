@@ -3,17 +3,11 @@ export const metadata = {
 	description: 'Page description',
 }
 
-import { options } from '@/app/api/auth/[...nextauth]/options'
-import { getServerSession } from 'next-auth/next'
-import { redirect } from 'next/navigation'
-
 import AuthHeader from '../auth-header'
 import AuthImage from '../auth-image'
 import GoogleAuthButton from './google-auth-button'
  
 export default async function SignIn() {
-	const session = await getServerSession(options)
-	if (session) redirect('/')
 	return (
 		<main className="bg-white dark:bg-slate-900">
 

@@ -3,7 +3,6 @@ import './css/style.css'
 import { Inter } from 'next/font/google'
 import Theme from './theme-provider'
 import AppProvider from './app-provider'
-import NextAuthProvider from './session-provider'
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -26,9 +25,7 @@ export default function RootLayout({
 			<body className={`${inter.variable} font-inter antialiased bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400`}>
 				<Theme>
 					<AppProvider>
-						<NextAuthProvider>
 							{children}
-						</NextAuthProvider>
 					</AppProvider>
 				</Theme>
 			</body>
