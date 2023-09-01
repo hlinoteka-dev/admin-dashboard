@@ -8,10 +8,10 @@ export default function EventDelete({ id }: { id: string }) {
 
 	const [dangerModalOpen, setDangerModalOpen] = useState<boolean>(false)
 
-	async function deleteProduct() {
+	async function deleteEvent() {
 		setDangerModalOpen(false)
-		await axios.delete(`/api/products?id=${id}`)
-		window.location.href = '/products'
+		await axios.delete(`/api/events?id=${id}`)
+		window.location.href = '/calendar'
 	}
 
 	return (
@@ -38,18 +38,18 @@ export default function EventDelete({ id }: { id: string }) {
 					<div>
 						{/* Modal header */}
 						<div className="mb-2">
-							<div className="text-lg font-semibold text-slate-800 dark:text-slate-100">Do you want to delete this product?</div>
+							<div className="text-lg font-semibold text-slate-800 dark:text-slate-100">Do you want to delete this event?</div>
 						</div>
 						{/* Modal content */}
 						<div className="text-sm mb-10">
 							<div className="space-y-2">
-								<p>This action cannot be undone. This will permanently delete the product from your store.</p>
+								<p>This action cannot be undone. This will permanently delete the event from your store.</p>
 							</div>
 						</div>
 						{/* Modal footer */}
 						<div className="flex flex-wrap justify-end space-x-2">
 							<button className="btn-sm border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300" onClick={() => { setDangerModalOpen(false) }}>Cancel</button>
-							<button className="btn-sm bg-rose-500 hover:bg-rose-600 text-white" onClick={() => { deleteProduct() }}>Yes, Delete it</button>
+							<button className="btn-sm bg-rose-500 hover:bg-rose-600 text-white" onClick={() => { deleteEvent() }}>Yes, Delete it</button>
 						</div>
 					</div>
 				</div>

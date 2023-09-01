@@ -1,47 +1,81 @@
-'use client'
+"use client"
 
+import { useState, useEffect } from 'react'
 import Flatpickr from 'react-flatpickr'
 import { Hook, Options } from 'flatpickr/dist/types/options'
 
-export default function Datepicker({ align }: {
-	align?: 'left' | 'right'
-}) {
+export default function Datepicker({ align, date, setDate, page }: { align?: string, date: string | Date, setDate: (date: string) => void, page?: string }) {
+	const [options, setOptions] = useState<Options | null>(null)
 
 	const onReady: Hook = (selectedDates, dateStr, instance) => {
-		(instance.element as HTMLInputElement).value = dateStr.replace('to', '-')
+		(instance.element as HTMLInputElement).value = dateStr.replace('-', '-')
 		const customClass = align ?? ''
 		instance.calendarContainer.classList.add(`flatpickr-${customClass}`)
 	}
 
 	const onChange: Hook = (selectedDates, dateStr, instance) => {
 		(instance.element as HTMLInputElement).value = dateStr.replace('to', '-')
+		setDate(selectedDates[0].toISOString())
 	}
 
-	const options: Options = {
-		mode: 'single',
-		static: true,
-		monthSelectorType: 'static',
-		dateFormat: 'M j, Y - H:i',
-		defaultDate: new Date().setDate(new Date().getDate() + 1),
-		prevArrow: '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M5.4 10.8l1.4-1.4-4-4 4-4L5.4 0 0 5.4z" /></svg>',
-		nextArrow: '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M1.4 10.8L0 9.4l4-4-4-4L1.4 0l5.4 5.4z" /></svg>',
-		onReady,
-		onChange,
-		enableTime: true,
-		time_24hr: true,
-		locale: {
-			firstDayOfWeek: 1
+	useEffect(() => {
+		const initialOptions: Options = {
+			mode: 'single',
+			allowInput: true,
+			static: true,
+			monthSelectorType: 'static',
+			dateFormat: 'M j, Y - H:i',
+			prevArrow: '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M5.4 10.8l1.4-1.4-4-4 4-4L5.4 0 0 5.4z" /></svg>',
+			nextArrow: '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M1.4 10.8L0 9.4l4-4-4-4L1.4 0l5.4 5.4z" /></svg>',
+			minDate: 'today',
+			onReady,
+			onChange,
+			enableTime: true,
+			time_24hr: true,
+			locale: {
+				firstDayOfWeek: 1
+			}
 		}
-	}
+		if (date && page === 'edit') {
+			const optionsWithDate: Options = {
+				...initialOptions,
+				defaultDate: new Date(date).getTime(),
+			}
+			setOptions(optionsWithDate)
+		} else if (page === 'new') {
+			const optionsWithoutDate: Options = {
+				...initialOptions,
+				defaultDate: new Date(),
+			}
+			setOptions(optionsWithoutDate)
+		}
+	}, [date])
 
 	return (
 		<div className="relative">
-			<Flatpickr className="w-full form-input pl-9 dark:bg-slate-800 text-slate-500 hover:text-slate-600 dark:text-slate-300 dark:hover:text-slate-200 font-medium" options={options} />
-			<div className="absolute inset-0 right-auto flex items-center pointer-events-none">
-				<svg className="w-4 h-4 fill-current text-slate-500 dark:text-slate-400 ml-3" viewBox="0 0 16 16">
-					<path d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z" />
-				</svg>
-			</div>
+			{options ? (
+				<div>
+					<Flatpickr
+						className="w-full form-input pl-9 dark:bg-slate-800 text-slate-500 hover:text-slate-600 dark:text-slate-300 dark:hover:text-slate-200 font-medium"
+						options={options}
+					/>
+					<div className="absolute inset-0 right-auto flex items-center pointer-events-none">
+						<svg className="w-4 h-4 fill-current text-slate-500 dark:text-slate-400 ml-3" viewBox="0 0 16 16">
+							<path d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z" />
+						</svg>
+					</div>
+				</div>
+			) : (
+				<div>
+					<div className="w-full form-input pl-9 dark:bg-slate-800 text-slate-500 hover:text-slate-600 dark:text-slate-300 dark:hover:text-slate-200 font-medium">Loading...</div>
+					<div className="absolute inset-0 right-auto flex items-center pointer-events-none">
+						<svg aria-hidden="true" className="w-6 h-6 ml-2 text-gray-200 animate-spin dark:text-gray-600 fill-indigo-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor" />
+							<path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill" />
+						</svg>
+					</div>
+				</div>
+			)}
 		</div>
 	)
 }

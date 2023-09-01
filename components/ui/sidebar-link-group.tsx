@@ -12,7 +12,7 @@ export default function SidebarLinkGroup({
   const [openGroup, setOpenGroup] = useState<boolean>(open)
 
   const handleClick = () => {
-    setOpenGroup(!openGroup);
+    setOpenGroup(!openGroup)
   }
 
   return (

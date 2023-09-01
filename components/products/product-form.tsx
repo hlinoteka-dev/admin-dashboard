@@ -11,7 +11,7 @@ interface Image {
 	description: string
 }
 
-export default function ProductForm({ id }: { id: string }) {
+export default function ProductForm({ id }: { id?: string }) {
 	const [name, setName] = useState('')
 	const [price, setPrice] = useState('')
 	const [author, setAuthor] = useState('')
@@ -78,26 +78,30 @@ export default function ProductForm({ id }: { id: string }) {
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productName">
 							Name
+							<span className="text-red-500">&nbsp;*</span>
 						</label>
-						<input id="productName" className="form-input w-full" type="text" placeholder="Beautiful Pot" value={name} onChange={e => setName(e.target.value)} autoComplete="off" />
+						<input id="productName" className="form-input w-full" type="text" placeholder="Beautiful Pot" value={name} onChange={e => setName(e.target.value)} autoComplete="off" required />
 					</div>
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productPrice">
 							Price
+							<span className="text-red-500">&nbsp;*</span>
 						</label>
-						<input id="productPrice" className="form-input w-full" type="text" placeholder="1 000 CZK" value={price} onChange={e => setPrice(e.target.value)} autoComplete="off" />
+						<input id="productPrice" className="form-input w-full" type="text" placeholder="1 000 CZK" value={price} onChange={e => setPrice(e.target.value)} autoComplete="off" required />
 					</div>
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productAuthor">
 							Author
+							<span className="text-red-500">&nbsp;*</span>
 						</label>
-						<input id="productAuthor" className="form-input w-full" type="text" placeholder="Jan Hus" value={author} onChange={e => setAuthor(e.target.value)} autoComplete="off" />
+						<input id="productAuthor" className="form-input w-full" type="text" placeholder="Jan Hus" value={author} onChange={e => setAuthor(e.target.value)} autoComplete="off" required />
 					</div>
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productSize">
 							Size
+							<span className="text-red-500">&nbsp;*</span>
 						</label>
-						<input id="productSize" className="form-input w-full" type="text" placeholder="V: 20 cm Š: 30 cm" value={size} onChange={e => setSize(e.target.value)} autoComplete="off" />
+						<input id="productSize" className="form-input w-full" type="text" placeholder="V: 20 cm Š: 30 cm" value={size} onChange={e => setSize(e.target.value)} autoComplete="off" required />
 					</div>
 				</div>
 				<div className="px-5 py-6">
@@ -119,9 +123,9 @@ export default function ProductForm({ id }: { id: string }) {
 				</div>
 				<div className="px-5 py-6">
 					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
-					{images.length > 0 && (
-						<div className="flex flex-col gap-4 mb-4">
-							{images.map((image: Image) => (
+					<div className="flex flex-col gap-4 mb-4">
+						{images.length > 0 && (
+							images.map((image: Image) => (
 								<div key={image.url}>
 									<div className="flex gap-4 w-full">
 										<div
@@ -150,9 +154,9 @@ export default function ProductForm({ id }: { id: string }) {
 										</button>
 									</div>
 								</div>
-							))}
-						</div>
-					)}
+							))
+						)}
+					</div>
 					<div className="flex gap-6">
 						<label className="flex flex-col btn w-24 h-24 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300 cursor-pointer">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

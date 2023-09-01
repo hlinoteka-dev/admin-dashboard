@@ -16,7 +16,7 @@ function NewEvent() {
 				</div>
 
 			</div>
-			<EventForm />
+			<EventForm page="new" />
 		</div>
 	)
 }

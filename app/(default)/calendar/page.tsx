@@ -11,39 +11,6 @@ import CalendarTitle from './title'
 
 export default function Calendar() {
 
-	// Some dummy events data
-	const events = [
-		{
-			eventStart: new Date(2023, 7, 2, 10, 30),
-			eventEnd: new Date(2023, 7, 4, 11, 15),
-			eventName: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.',
-			eventColor: 'sky'
-		},
-	]
-
-	const replicatedEvents = []
-
-	for (const event of events) {
-		const startTime = event.eventStart.getTime()
-		const endTime = event.eventEnd.getTime()
-
-		const numberOfDays = Math.ceil((endTime - startTime) / (24 * 60 * 60 * 1000))
-
-		for (let i = 0; i < numberOfDays; i++) {
-			const newEventStart = new Date(startTime + (i * 24 * 60 * 60 * 1000))
-			const newEventEnd = new Date(newEventStart.getTime() + (endTime - startTime) % (24 * 60 * 60 * 1000))
-
-			replicatedEvents.push({
-				eventStart: newEventStart,
-				eventEnd: newEventEnd,
-				eventName: event.eventName,
-				eventColor: event.eventColor,
-				isFirst: i === 0,
-				isLast: i === numberOfDays - 1,
-			})
-		}
-	}
-
 	return (
 		<CalendarProvider>
 			<div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-[96rem] mx-auto">
@@ -73,7 +40,7 @@ export default function Calendar() {
 
 				</div>
 
-				<CalendarTable events={replicatedEvents} />
+				<CalendarTable />
 
 			</div>
 		</CalendarProvider>

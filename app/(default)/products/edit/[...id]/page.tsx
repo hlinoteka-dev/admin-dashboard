@@ -2,6 +2,7 @@ export const metadata = {
 	title: 'Edit Product - Hlinoteka'
 }
 
+import Banner from '@/components/banner'
 import ProductForm from '@/components/products/product-form'
 
 function EditProduct({ params }: { params: { id: string } }) {
@@ -18,6 +19,11 @@ function EditProduct({ params }: { params: { id: string } }) {
 				</div>
 
 			</div>
+
+			<Banner className="mb-4">
+				If you wish to delete this product, I suggest you to delete the photos first and then delete the product. This way you will not have any orphaned photos in the database.
+			</Banner>
+
 			<ProductForm id={id} />
 		</div>
 	)
