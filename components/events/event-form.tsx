@@ -187,7 +187,6 @@ export default function EventForm({ id }: { id?: string }) {
 					{id ? 'Save' : 'Create'}
 				</button>
 			</div>
-			<pre>{JSON.stringify({ name, active, time, description, url, images, photographer }, null, 2)}</pre>
 		</form >
 	)
 }

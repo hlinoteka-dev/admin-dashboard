@@ -73,10 +73,18 @@ export default function Datepicker({ align, type, data, setData, flag, loading }
 
 		if (data != null && data.length > 0) {
 			if (type == 'time') {
-				if (flag == 'startTime') {
-					setOptions({ ...timeOptions, defaultDate: data[0] })
-				} else if (flag == 'endTime') {
-					setOptions({ ...timeOptions, defaultDate: data[1] })
+				const startTimeHours = new Date(data[0]).getHours()
+				const startTimeMinutes = new Date(data[0]).getMinutes()
+				const endTimeHours = new Date(data[1]).getHours()
+				const endTimeMinutes = new Date(data[1]).getMinutes()
+				if (startTimeHours == endTimeHours && startTimeMinutes == endTimeMinutes) {
+					setOptions(timeOptions)
+				} else {
+					if (flag == 'startTime') {
+						setOptions({ ...timeOptions, defaultDate: data[0] })
+					} else if (flag == 'endTime') {
+						setOptions({ ...timeOptions, defaultDate: data[1] })
+					}
 				}
 			} else {
 				setOptions({ ...dateOptions, defaultDate: data })
