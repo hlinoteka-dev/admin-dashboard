@@ -11,7 +11,7 @@ export default function EventDelete({ id }: { id: string }) {
 	async function deleteEvent() {
 		setDangerModalOpen(false)
 		await axios.delete(`/api/events?id=${id}`)
-		window.location.href = '/calendar'
+		window.location.href = '/events'
 	}
 
 	return (

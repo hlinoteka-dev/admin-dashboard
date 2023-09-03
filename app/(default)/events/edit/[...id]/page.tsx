@@ -3,7 +3,7 @@ export const metadata = {
 }
 
 import Banner from '@/components/banner'
-import EventForm from "@/components/events/event-form"
+import EventForm from '@/components/events/event-form'
 
 function EditEvent({ params }: { params: { id: string } }) {
 	const { id } = params
@@ -21,10 +21,10 @@ function EditEvent({ params }: { params: { id: string } }) {
 			</div>
 
 			<Banner className="mb-4">
-				If you wish to delete this event, I suggest you to delete the photo first and then delete the event. This way you will not have any orphaned photos in the database.
+				If you wish to delete this event, I suggest you to delete the photos first and then delete the event. This way you will not have any orphaned photos in the database.
 			</Banner>
 
-			<EventForm id={id} page="edit" />
+			<EventForm id={id} />
 		</div>
 	)
 }

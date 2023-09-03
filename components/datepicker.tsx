@@ -4,52 +4,91 @@ import { useState, useEffect } from 'react'
 import Flatpickr from 'react-flatpickr'
 import { Hook, Options } from 'flatpickr/dist/types/options'
 
-export default function Datepicker({ align, date, setDate, page }: { align?: string, date: string | Date, setDate: (date: string) => void, page?: string }) {
-	const [options, setOptions] = useState<Options | null>(null)
+export default function Datepicker({ align, type, data, setData, flag, loading }: { align?: string, type?: string, data?: any, setData?: any, flag?: string, loading?: boolean }) {
+
+	const [options, setOptions] = useState<Options | null>()
 
 	const onReady: Hook = (selectedDates, dateStr, instance) => {
-		(instance.element as HTMLInputElement).value = dateStr.replace('-', '-')
 		const customClass = align ?? ''
 		instance.calendarContainer.classList.add(`flatpickr-${customClass}`)
 	}
 
 	const onChange: Hook = (selectedDates, dateStr, instance) => {
-		(instance.element as HTMLInputElement).value = dateStr.replace('to', '-')
-		setDate(selectedDates[0].toISOString())
+		if (type === 'time' && flag === 'startTime') {
+			// Extract the existing date from the first element of the "data" array
+			const existingDate = new Date(data[0])
+
+			// Extract the hour and minute values from the selected time
+			const selectedTime = new Date(selectedDates[0])
+			const selectedHour = selectedTime.getHours()
+			const selectedMinute = selectedTime.getMinutes()
+
+			// Update the hour and minute of the existing date
+			existingDate.setHours(selectedHour)
+			existingDate.setMinutes(selectedMinute)
+
+			// Update the "data" array with the modified date
+			const newData = [existingDate, data[1]]
+			setData(newData)
+		} else if (type === 'time' && flag === 'endTime') {
+			// Similar steps as above for the end time
+			const existingDate = new Date(data[1])
+			const selectedTime = new Date(selectedDates[0])
+			const selectedHour = selectedTime.getHours()
+			const selectedMinute = selectedTime.getMinutes()
+			existingDate.setHours(selectedHour)
+			existingDate.setMinutes(selectedMinute)
+			const newData = [data[0], existingDate]
+			setData(newData)
+		} else {
+			// For other cases, simply set the "data" array with the selected dates
+			setData(selectedDates.map(date => date))
+		}
 	}
 
 	useEffect(() => {
-		const initialOptions: Options = {
-			mode: 'single',
-			allowInput: true,
+		const dateOptions: Options = {
+			mode: 'range',
 			static: true,
 			monthSelectorType: 'static',
-			dateFormat: 'M j, Y - H:i',
+			dateFormat: 'M j, Y',
 			prevArrow: '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M5.4 10.8l1.4-1.4-4-4 4-4L5.4 0 0 5.4z" /></svg>',
 			nextArrow: '<svg class="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M1.4 10.8L0 9.4l4-4-4-4L1.4 0l5.4 5.4z" /></svg>',
-			minDate: 'today',
 			onReady,
 			onChange,
-			enableTime: true,
-			time_24hr: true,
 			locale: {
 				firstDayOfWeek: 1
+			},
+			defaultDate: data
+		}
+
+		const timeOptions: Options = {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: "H:i",
+			time_24hr: true,
+			onReady,
+			onChange,
+		}
+
+		if (data != null && data.length > 0) {
+			if (type == 'time') {
+				if (flag == 'startTime') {
+					setOptions({ ...timeOptions, defaultDate: data[0] })
+				} else if (flag == 'endTime') {
+					setOptions({ ...timeOptions, defaultDate: data[1] })
+				}
+			} else {
+				setOptions({ ...dateOptions, defaultDate: data })
+			}
+		} else if (loading == false) {
+			if (type == 'time') {
+				setOptions(timeOptions)
+			} else {
+				setOptions(dateOptions)
 			}
 		}
-		if (date && page === 'edit') {
-			const optionsWithDate: Options = {
-				...initialOptions,
-				defaultDate: new Date(date).getTime(),
-			}
-			setOptions(optionsWithDate)
-		} else if (page === 'new') {
-			const optionsWithoutDate: Options = {
-				...initialOptions,
-				defaultDate: new Date(),
-			}
-			setOptions(optionsWithoutDate)
-		}
-	}, [date])
+	}, [data])
 
 	return (
 		<div className="relative">
@@ -59,11 +98,19 @@ export default function Datepicker({ align, date, setDate, page }: { align?: str
 						className="w-full form-input pl-9 dark:bg-slate-800 text-slate-500 hover:text-slate-600 dark:text-slate-300 dark:hover:text-slate-200 font-medium"
 						options={options}
 					/>
-					<div className="absolute inset-0 right-auto flex items-center pointer-events-none">
-						<svg className="w-4 h-4 fill-current text-slate-500 dark:text-slate-400 ml-3" viewBox="0 0 16 16">
-							<path d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z" />
-						</svg>
-					</div>
+					{type === 'date' ? (
+						<div className="absolute inset-0 right-auto flex items-center pointer-events-none">
+							<svg className="w-4 h-4 fill-current text-slate-500 dark:text-slate-400 ml-3" viewBox="0 0 16 16">
+								<path d="M15 2h-2V0h-2v2H9V0H7v2H5V0H3v2H1a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V3a1 1 0 00-1-1zm-1 12H2V6h12v8z" />
+							</svg>
+						</div>
+					) : (
+						<div className="absolute inset-0 right-auto flex items-center pointer-events-none">
+							<svg className="w-4 h-4 fill-current text-slate-500 dark:text-slate-400 ml-3" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+							</svg>
+						</div>
+					)}
 				</div>
 			) : (
 				<div>

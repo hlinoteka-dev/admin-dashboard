@@ -2,29 +2,28 @@
 
 import { useState } from 'react'
 import ModalBlank from '@/components/modal-blank'
+import { Event } from './events-table'
 import axios from 'axios'
 
-export default function ProductDelete({ id }: { id: string }) {
+export default function EventsTableItemDelete({ event }: { event: Event }) {
 
 	const [dangerModalOpen, setDangerModalOpen] = useState<boolean>(false)
 
-	async function deleteProduct() {
+	async function deleteEvent() {
 		setDangerModalOpen(false)
-		await axios.delete(`/api/products?id=${id}`)
-		window.location.href = '/products'
+		await axios.delete(`/api/events?id=${event._id}`)
+		window.location.reload()
 	}
 
 	return (
 		<>
 			{/* Start */}
-			<button
-				className="text-rose-500 text-sm underline hover:no-underline mr-auto"
-				onClick={(e) => {
-					setDangerModalOpen(true)
-				}}
-				type="button"
-			>
-				Delete
+			<button className="text-rose-500 hover:text-rose-600 rounded-full" onClick={() => { setDangerModalOpen(true) }}>
+				<span className="sr-only">Delete</span>
+				<svg className="w-8 h-8 fill-current" viewBox="0 0 32 32">
+					<path d="M13 15h2v6h-2zM17 15h2v6h-2z" />
+					<path d="M20 9c0-.6-.4-1-1-1h-6c-.6 0-1 .4-1 1v2H8v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V13h1v-2h-4V9zm-6 1h4v1h-4v-1zm7 3v9H11v-9h10z" />
+				</svg>
 			</button>
 			<ModalBlank isOpen={dangerModalOpen} setIsOpen={setDangerModalOpen}>
 				<div className="p-5 flex space-x-4">
@@ -38,18 +37,18 @@ export default function ProductDelete({ id }: { id: string }) {
 					<div>
 						{/* Modal header */}
 						<div className="mb-2">
-							<div className="text-lg font-semibold text-slate-800 dark:text-slate-100">Do you want to delete this product?</div>
+							<div className="text-lg font-semibold text-slate-800 dark:text-slate-100">Delete {event.name}?</div>
 						</div>
 						{/* Modal content */}
 						<div className="text-sm mb-10">
 							<div className="space-y-2">
-								<p>This action cannot be undone. This will permanently delete the product from your store.</p>
+								<p>This action cannot be undone. This will permanently delete <span className="font-bold">{event.name}</span> from your store.</p>
 							</div>
 						</div>
 						{/* Modal footer */}
 						<div className="flex flex-wrap justify-end space-x-2">
 							<button className="btn-sm border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300" onClick={() => { setDangerModalOpen(false) }}>Cancel</button>
-							<button className="btn-sm bg-rose-500 hover:bg-rose-600 text-white" onClick={() => { deleteProduct() }}>Yes, Delete it</button>
+							<button className="btn-sm bg-rose-500 hover:bg-rose-600 text-white" onClick={() => { deleteEvent() }}>Yes, Delete it</button>
 						</div>
 					</div>
 				</div>

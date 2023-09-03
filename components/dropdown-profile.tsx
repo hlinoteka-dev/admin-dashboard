@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { Menu, Transition } from '@headlessui/react'
 import UserAvatar from '@/public/images/user-avatar-32.png'
+import { signOut } from 'next-auth/react'
 
 export default function DropdownProfile({ align }: {
 	align?: 'left' | 'right'
@@ -37,6 +38,7 @@ export default function DropdownProfile({ align }: {
 						{({ active }) => (
 							<button
 								className={`font-medium text-sm flex items-center py-1 px-3 ${active ? 'text-indigo-600 dark:text-indigo-400' : 'text-indigo-500'}`}
+								onClick={() => signOut()}
 							>
 								Sign Out
 							</button>

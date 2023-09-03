@@ -55,7 +55,9 @@
     z-index: 20;
 }
 
-.flatpickr-days {
+.flatpickr-days,
+.flatpickr-hour,
+.flatpickr-minute {
     width: var(--daysWidth);
 }
 
@@ -65,16 +67,27 @@
     max-width: var(--daysWidth);
 }
 
-.flatpickr-day {
+.flatpickr-day,
+.flatpickr-hour,
+.flatpickr-minute {
     @apply bg-slate-50 dark:bg-slate-700/20 text-sm font-medium text-slate-600 dark:text-slate-100;
     max-width: var(--daySize);
     height: var(--daySize);
     line-height: var(--daySize);
 }
 
+.flatpickr-hour:hover,
+.flatpickr-minute:hover {
+		@apply bg-indigo-500 text-indigo-50;
+}
+
 .flatpickr-day,
 .flatpickr-day.prevMonthDay,
-.flatpickr-day.nextMonthDay {
+.flatpickr-day.nextMonthDay,
+.flatpickr-hour,
+.flatpickr-minute,
+.flatpickr-hour,
+.flatpickr-minute {
     border: none;
 }
 
@@ -99,7 +112,9 @@
 .flatpickr-day.endRange.endRange,
 .flatpickr-day.selected.startRange.endRange,
 .flatpickr-day.startRange.startRange.endRange,
-.flatpickr-day.endRange.startRange.endRange {
+.flatpickr-day.endRange.startRange.endRange,
+.flatpickr-hour,
+.flatpickr-minute {
     border-radius: 0;
 }
 
@@ -223,25 +238,23 @@
     box-shadow: none !important;
 }
 
-.flatpickr-time input {
-	@apply text-indigo-500 cursor-pointer;
+.flatpickr-time {
+	border: none !important;
+	outline: none;
 }
 
-.numInputWrapper input {
-		@apply rounded-sm;
+.flatpickr-time input:hover,
+.flatpickr-time input:focus {
+	@apply bg-indigo-500 text-indigo-50 cursor-pointer;
 }
 
-.numInputWrapper input:focus {
-		@apply bg-indigo-500 text-white;
-}
-
-.numInputWrapper input::selection {
-		@apply bg-indigo-500 text-white;
+.flatpickr-time input::selection,
+.flatpickr-time input::selection {
+	@apply bg-indigo-400 text-indigo-50;
 }
 
 .numInputWrapper:hover {
-    background: none;
-		outline: none;
+		background: none;
 }
 
 .numInputWrapper span {

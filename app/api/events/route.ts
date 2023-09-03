@@ -9,22 +9,22 @@ export async function GET(request: Request) {
 		const event = await Event.findOne({ _id: id })
 		return new Response(JSON.stringify(event))
 	}
-	const events = await Event.find()
+	const events = await Event.find().sort({ time: -1 })
 	return new Response(JSON.stringify(events))
 }
 
 export async function POST(request: Request) {
 	await mongooseConnect()
 	const requestBody = await request.json()
-	const { name, dateFrom, dateTo, description, url, color, image } = requestBody
+	const { name, active, time, url, description, images, photographer } = requestBody
 	const eventDoc = await Event.create({
 		name,
-		dateFrom,
-		dateTo,
-		description,
+		active,
+		time,
 		url,
-		color,
-		image
+		description,
+		images,
+		photographer
 	})
 	return new Response(eventDoc)
 }
@@ -32,15 +32,15 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
 	await mongooseConnect()
 	const requestBody = await request.json()
-	const { _id, name, dateFrom, dateTo, description, url, color, image } = requestBody
+	const { _id, name, active, time, url, description, images, photographer } = requestBody
 	await Event.updateOne({ _id }, {
 		name,
-		dateFrom,
-		dateTo,
-		description,
+		active,
+		time,
 		url,
-		color,
-		image
+		description,
+		images,
+		photographer
 	})
 	return new Response("Event updated")
 }

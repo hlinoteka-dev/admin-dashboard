@@ -74,7 +74,7 @@ export default function ProductForm({ id }: { id?: string }) {
 	return (
 		<form onSubmit={saveProduct}>
 			<div className="mb-4 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700 relative">
-				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-5 py-6">
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-5 pt-6">
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="productName">
 							Name
@@ -104,7 +104,7 @@ export default function ProductForm({ id }: { id?: string }) {
 						<input id="productSize" className="form-input w-full" type="text" placeholder="V: 20 cm Š: 30 cm" value={size} onChange={e => setSize(e.target.value)} autoComplete="off" required />
 					</div>
 				</div>
-				<div className="px-5 py-6">
+				<div className="px-5 pt-6">
 					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Params</h2>
 					<div className="flex gap-4">
 						<div className="">
@@ -123,9 +123,9 @@ export default function ProductForm({ id }: { id?: string }) {
 				</div>
 				<div className="px-5 py-6">
 					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
-					<div className="flex flex-col gap-4 mb-4">
-						{images.length > 0 && (
-							images.map((image: Image) => (
+					{images.length > 0 && (
+						images.map((image: Image) => (
+							<div className="flex flex-col gap-4 mb-4">
 								<div key={image.url}>
 									<div className="flex gap-4 w-full">
 										<div
@@ -154,9 +154,9 @@ export default function ProductForm({ id }: { id?: string }) {
 										</button>
 									</div>
 								</div>
-							))
-						)}
-					</div>
+							</div>
+						))
+					)}
 					<div className="flex gap-6">
 						<label className="flex flex-col btn w-24 h-24 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300 cursor-pointer">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

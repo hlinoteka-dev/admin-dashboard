@@ -2,7 +2,7 @@ export const metadata = {
 	title: 'New Event - Hlinoteka'
 }
 
-import EventForm from "@/components/events/event-form"
+import EventForm from '@/components/events/event-form'
 
 function NewEvent() {
 	return (
@@ -16,7 +16,9 @@ function NewEvent() {
 				</div>
 
 			</div>
-			<EventForm page="new" />
+
+			<EventForm />
+
 		</div>
 	)
 }

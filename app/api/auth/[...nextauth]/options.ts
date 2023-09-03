@@ -6,10 +6,10 @@ import clientPromise from '@/lib/mongodb'
 
 export const options: NextAuthOptions = {
 	providers: [
-		GithubProvider({
-			clientId: process.env.GITHUB_ID as string,
-			clientSecret: process.env.GITHUB_SECRET as string
-		}),
+		// GithubProvider({
+		// 	clientId: process.env.GITHUB_ID as string,
+		// 	clientSecret: process.env.GITHUB_SECRET as string
+		// }),
 		CredentialsProvider({
 			name: "Credentials",
 			credentials: {
@@ -17,7 +17,7 @@ export const options: NextAuthOptions = {
 				password: { label: "Password", type: "password" }
 			},
 			async authorize(credentials) {
-				const user = { id: 42, name: "admin", password: "password" }
+				const user = { id: 42, name: process.env.NEXTAUTH_USERNAME as string, password: process.env.NEXTAUTH_PASSWORD as string }
 				if (credentials?.username === user.name && credentials?.password === user.password) {
 					return user
 				} else {
@@ -27,5 +27,5 @@ export const options: NextAuthOptions = {
 		})
 	],
 	secret:  process.env.NEXTAUTH_SECRET as string,
-	adapter: MongoDBAdapter(clientPromise)
+	adapter: MongoDBAdapter(clientPromise),
 }

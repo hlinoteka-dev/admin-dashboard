@@ -5,8 +5,7 @@ export const metadata = {
 
 import AuthHeader from '../auth-header'
 import AuthImage from '../auth-image'
-import GoogleAuthButton from './google-auth-button'
- 
+
 export default async function SignIn() {
 	return (
 		<main className="bg-white dark:bg-slate-900">
@@ -21,8 +20,18 @@ export default async function SignIn() {
 
 						<div className="max-w-sm mx-auto w-full py-8">
 							<h1 className="text-3xl text-slate-800 dark:text-slate-100 font-bold mb-6">Welcome back! 😊</h1>
+							<div className="space-y-4">
+								<div>
+									<label className="block text-sm font-medium mb-1" htmlFor="email">Email Address</label>
+									<input id="email" className="form-input w-full" type="email" />
+								</div>
+								<div>
+									<label className="block text-sm font-medium mb-1" htmlFor="password">Password</label>
+									<input id="password" className="form-input w-full" type="password" autoComplete="on" />
+								</div>
+							</div>
 							<div className="flex items-center justify-between mt-6">
-								<GoogleAuthButton />
+								<button className="btn bg-indigo-500 hover:bg-indigo-600 text-white">Sign In</button>
 							</div>
 							{/* Footer */}
 							<div className="pt-5 mt-6 border-t border-slate-200 dark:border-slate-700">
