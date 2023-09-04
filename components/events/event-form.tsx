@@ -70,7 +70,7 @@ export default function EventForm({ id }: { id?: string }) {
 					<div className="flex gap-4">
 						<div className="">
 							<label className="flex items-center">
-								<input type="checkbox" className="form-checkbox" onChange={e => setActive(e.target.checked)} defaultChecked={active} />
+								<input type="checkbox" className="form-checkbox" onChange={e => setActive(e.target.checked)} checked={active} />
 								<span className="text-sm ml-2">Active</span>
 							</label>
 						</div>
