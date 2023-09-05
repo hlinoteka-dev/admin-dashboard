@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 	})
 	const formData = await request.formData()
 	const images = []
-	for (const fileInfo of formData) {
+	for (const fileInfo of <any>formData.entries()) {
 		const imageObj = {} as Image
 		const file = fileInfo[1]
 		const name = Date.now().toString() + file.name
