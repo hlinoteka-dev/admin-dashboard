@@ -124,8 +124,8 @@ export default function ProductForm({ id }: { id?: string }) {
 				<div className="px-5 py-6">
 					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
 					{images.length > 0 && (
-						images.map((image: Image) => (
-							<div className="flex flex-col gap-4 mb-4">
+						images.map((image: Image, index: number) => (
+							<div className="flex flex-col gap-4 mb-4" key={index}>
 								<div key={image.url}>
 									<div className="flex gap-4 w-full">
 										<div

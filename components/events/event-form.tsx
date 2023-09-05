@@ -124,8 +124,8 @@ export default function EventForm({ id }: { id?: string }) {
 					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
 					<div className="flex gap-4">
 						{images.length > 0 && (
-							images.map((image: Image) => (
-								<div key={image.url} className="mb-4">
+							images.map((image: Image, index: number) => (
+								<div key={image.url} className="mb-4" key={index}>
 									<div className="flex gap-4 w-full">
 										<div
 											className="relative flex flex-col btn p-0 w-24 h-24 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300"
