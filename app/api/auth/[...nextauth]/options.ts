@@ -16,7 +16,7 @@ export const options: NextAuthOptions = {
 				username: { label: "Username", type: "text" },
 				password: { label: "Password", type: "password" }
 			},
-			async authorize(credentials) {
+			async authorize(credentials): Promise<any | null> {
 				const user = { id: 42, name: process.env.NEXTAUTH_USERNAME as string, password: process.env.NEXTAUTH_PASSWORD as string }
 				if (credentials?.username === user.name && credentials?.password === user.password) {
 					return user
