@@ -1,4 +1,4 @@
-import { Event } from "@/models/event"
+import { Event } from "@/models/Event"
 import { mongooseConnect } from "@/lib/mongoose"
 
 export async function GET(request: Request) {

@@ -1,4 +1,4 @@
-import { Product } from "@/models/product"
+import { Product } from "@/models/Product"
 import { mongooseConnect } from "@/lib/mongoose"
 
 export async function GET(request: Request) {

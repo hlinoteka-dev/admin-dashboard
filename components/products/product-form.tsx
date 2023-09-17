@@ -5,6 +5,7 @@ import axios from "axios"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import ProductDelete from "./product-delete"
+import DropdownTag from "../dropdown-tags"
 
 interface Image {
 	url: string
@@ -119,6 +120,12 @@ export default function ProductForm({ id }: { id?: string }) {
 								<span className="text-sm ml-2">New Product</span>
 							</label>
 						</div>
+					</div>
+				</div>
+				<div className="px-5 pt-6">
+					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Tags</h2>
+					<div className="">
+						<DropdownTag />
 					</div>
 				</div>
 				<div className="px-5 py-6">
