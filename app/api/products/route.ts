@@ -16,7 +16,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
 	await mongooseConnect()
 	const requestBody = await request.json()
-	const { name, price, author, size, topProduct, newProduct, images } = requestBody
+	const { name, price, author, size, topProduct, newProduct, productTags, images } = requestBody
 	const productDoc = await Product.create({
 		name,
 		price,
@@ -24,6 +24,7 @@ export async function POST(request: Request) {
 		size,
 		topProduct,
 		newProduct,
+		productTags,
 		images
 	})
 	return new Response(productDoc)
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
 	await mongooseConnect()
 	const requestBody = await request.json()
-	const { _id, name, price, author, size, topProduct, newProduct, images } = requestBody
+	const { _id, name, price, author, size, topProduct, newProduct, productTags, images } = requestBody
 	await Product.updateOne({ _id }, {
 		name,
 		price,
@@ -40,6 +41,7 @@ export async function PUT(request: Request) {
 		size,
 		topProduct,
 		newProduct,
+		productTags,
 		images
 	})
 	return new Response("Product updated")

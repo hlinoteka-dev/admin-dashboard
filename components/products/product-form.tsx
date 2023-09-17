@@ -19,24 +19,26 @@ export default function ProductForm({ id }: { id?: string }) {
 	const [size, setSize] = useState('')
 	const [topProduct, setTopProduct] = useState(false)
 	const [newProduct, setNewProduct] = useState(false)
+	const [productTags, setProductTags] = useState([]) as any[]
 	const [images, setImages] = useState([]) as any[]
 	const [getOut, setGetOut] = useState(false)
 	useEffect(() => {
 		if (!id) return
 		axios.get(`/api/products?id=${id}`).then(res => {
-			const { name, price, author, size, topProduct, newProduct, images } = res.data
+			const { name, price, author, size, topProduct, newProduct, productTags, images } = res.data
 			setName(name)
 			setPrice(price)
 			setAuthor(author)
 			setSize(size)
 			setTopProduct(topProduct)
 			setNewProduct(newProduct)
+			setProductTags(productTags)
 			setImages(images)
 		})
 	}, [id])
 	async function saveProduct(e: { preventDefault: () => void }) {
 		e.preventDefault()
-		const data = { name, price, author, size, topProduct, newProduct, images }
+		const data = { name, price, author, size, topProduct, newProduct, productTags, images }
 		if (id) {
 			await axios.put(`/api/products?id=${id}`, { ...data, _id: id })
 		} else {
@@ -125,7 +127,7 @@ export default function ProductForm({ id }: { id?: string }) {
 				<div className="px-5 pt-6">
 					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Tags</h2>
 					<div className="">
-						<DropdownTag />
+						<DropdownTag productTags={productTags} setProductTags={setProductTags} />
 					</div>
 				</div>
 				<div className="px-5 py-6">

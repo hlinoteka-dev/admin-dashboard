@@ -7,6 +7,7 @@ const ProductSchema = new Schema({
 	size: {type: String, required: true},
 	topProduct: Boolean,
 	newProduct: Boolean,
+	productTags: [String],
 	images: [{
 		url: String,
 		description: String
