@@ -4,6 +4,7 @@ import axios from 'axios'
 import ModalBlank from '@/components/modal-blank'
 import { Popover, Transition } from '@headlessui/react'
 import { useEffect, useState } from 'react'
+import { revalidate } from '@/lib/revalidate'
 
 export interface Tag {
 	_id: string
@@ -24,6 +25,7 @@ export default function DropdownTag({ productTags, setProductTags }: { productTa
 
 	async function createTag() {
 		const tag = await axios.post('/api/products/tags', { name: tagName })
+		await revalidate("tags")
 		setTags([...tags, tag.data])
 		setTagName('')
 		setModalOpen(false)
@@ -31,7 +33,7 @@ export default function DropdownTag({ productTags, setProductTags }: { productTa
 
 
 	async function deleteTag(id: string) {
-		await axios.delete(`/api/products/tags?id=${id}`)
+		await axios.delete(`/api/products/tags?id=${id}`).then(() => revalidate("tags"))
 		setTags(tags.filter((tag: Tag) => tag._id !== id))
 	}
 

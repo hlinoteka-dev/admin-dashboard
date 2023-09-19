@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import ModalBlank from '@/components/modal-blank'
 import axios from 'axios'
+import { revalidate } from '@/lib/revalidate'
 
 export default function EventDelete({ id }: { id: string }) {
 
@@ -11,6 +12,7 @@ export default function EventDelete({ id }: { id: string }) {
 	async function deleteEvent() {
 		setDangerModalOpen(false)
 		await axios.delete(`/api/events?id=${id}`)
+		await revalidate("events")
 		window.location.href = '/events'
 	}
 

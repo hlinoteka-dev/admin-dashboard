@@ -6,6 +6,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import ProductDelete from "./product-delete"
 import DropdownTag from "../dropdown-tags"
+import { revalidate } from "@/lib/revalidate"
 
 interface Image {
 	url: string
@@ -44,6 +45,7 @@ export default function ProductForm({ id }: { id?: string }) {
 		} else {
 			await axios.post('/api/products', data)
 		}
+		await revalidate("products")
 		setGetOut(true)
 	}
 	if (getOut) {

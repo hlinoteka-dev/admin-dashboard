@@ -6,6 +6,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import EventDelete from "./event-delete"
 import Datepicker from "../datepicker"
+import { revalidate } from "@/lib/revalidate"
 
 interface Image {
 	url: string
@@ -42,6 +43,7 @@ export default function EventForm({ id }: { id?: string }) {
 		} else {
 			await axios.post('/api/events', data)
 		}
+		await revalidate("events")
 		setGetOut(true)
 	}
 	if (getOut) {
