@@ -40,64 +40,69 @@ export default function DropdownTag({ productTags, setProductTags }: { productTa
 	return (
 		<>
 			<Popover className="relative inline-flex">
-				<Popover.Button className="btn bg-white dark:bg-slate-800 border-slate-200 hover:border-slate-300 dark:border-slate-700 dark:hover:border-slate-600 text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300">
-					Tags
-				</Popover.Button>
-				<Transition
-					className="origin-top-right z-10 absolute top-full left-0 right-auto min-w-[14rem] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pt-1.5 rounded shadow-lg overflow-hidden mt-1 md:left-0 md:right-auto"
-					enter="transition ease-out duration-200 transform"
-					enterFrom="opacity-0 -translate-y-2"
-					enterTo="opacity-100 translate-y-0"
-					leave="transition ease-out duration-200"
-					leaveFrom="opacity-100"
-					leaveTo="opacity-0"
-				>
-					<Popover.Panel>
-						{({ close }) => (
-							<>
-								<ul className="mb-4">
-									{tags.map((tag: Tag) => (
-										<li className="py-1 px-3 flex justify-between" key={tag._id}>
-											<label className="flex items-center">
-												<input type="checkbox" className="form-checkbox" checked={productTags.includes(tag._id)} onChange={(e) => {
-													if (e.target.checked) {
-														setProductTags([...productTags, tag._id])
-													} else {
-														setProductTags(productTags.filter((productTag: string) => productTag !== tag._id))
-													}
-												}} />
-												<span className="text-sm font-medium ml-2">{tag.name}</span>
-											</label>
-											<button className="text-rose-500 hover:text-rose-600 rounded-full" onClick={() => { deleteTag(tag._id) }} type="button">
-												<span className="sr-only">Delete</span>
-												<svg className="w-8 h-8 fill-current" viewBox="0 0 32 32">
-													<path d="M13 15h2v6h-2zM17 15h2v6h-2z" />
-													<path d="M20 9c0-.6-.4-1-1-1h-6c-.6 0-1 .4-1 1v2H8v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V13h1v-2h-4V9zm-6 1h4v1h-4v-1zm7 3v9H11v-9h10z" />
-												</svg>
-											</button>
-										</li>
-									))}
-								</ul>
-								<div className="py-2 px-3 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/20">
-									<ul className="flex items-center justify-between">
-										<li>
-											<button 
-												className="btn-xs bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-500 dark:text-slate-300 hover:text-slate-600 dark:hover:text-slate-200"
-												type="button"
-												onClick={() => { setProductTags([]) }}
-											>
-												Clear
-											</button>
-										</li>
-										<li>
-											<button className="btn-xs bg-emerald-500 hover:bg-emerald-600 text-white" onClick={() => { close(); setModalOpen(true) }} type="button">New</button>
-										</li>
-									</ul>
-								</div>
-							</>
-						)}
-					</Popover.Panel>
-				</Transition>
+				{({ open }) => (
+					<>
+						<Popover.Button className="btn bg-white dark:bg-slate-800 border-slate-200 hover:border-slate-300 dark:border-slate-700 dark:hover:border-slate-600 text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300">
+							Categories
+							<span className="ml-2">{ open ? "▲" : "▼" }</span>
+						</Popover.Button>
+						<Transition
+							className="origin-top-right z-10 absolute top-full left-0 right-auto min-w-[14rem] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pt-1.5 rounded shadow-lg overflow-hidden mt-1 md:left-0 md:right-auto"
+							enter="transition ease-out duration-200 transform"
+							enterFrom="opacity-0 -translate-y-2"
+							enterTo="opacity-100 translate-y-0"
+							leave="transition ease-out duration-200"
+							leaveFrom="opacity-100"
+							leaveTo="opacity-0"
+						>
+							<Popover.Panel>
+								{({ close }) => (
+									<>
+										<ul className="mb-4">
+											{tags.map((tag: Tag) => (
+												<li className="py-1 px-3 flex justify-between" key={tag._id}>
+													<label className="flex items-center">
+														<input type="checkbox" className="form-checkbox" checked={productTags.includes(tag._id)} onChange={(e) => {
+															if (e.target.checked) {
+																setProductTags([...productTags, tag._id])
+															} else {
+																setProductTags(productTags.filter((productTag: string) => productTag !== tag._id))
+															}
+														}} />
+														<span className="text-sm font-medium ml-2">{tag.name}</span>
+													</label>
+													<button className="text-rose-500 hover:text-rose-600 rounded-full" onClick={() => { deleteTag(tag._id) }} type="button">
+														<span className="sr-only">Delete</span>
+														<svg className="w-8 h-8 fill-current" viewBox="0 0 32 32">
+															<path d="M13 15h2v6h-2zM17 15h2v6h-2z" />
+															<path d="M20 9c0-.6-.4-1-1-1h-6c-.6 0-1 .4-1 1v2H8v2h1v10c0 .6.4 1 1 1h12c.6 0 1-.4 1-1V13h1v-2h-4V9zm-6 1h4v1h-4v-1zm7 3v9H11v-9h10z" />
+														</svg>
+													</button>
+												</li>
+											))}
+										</ul>
+										<div className="py-2 px-3 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/20">
+											<ul className="flex items-center justify-between">
+												<li>
+													<button
+														className="btn-xs bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-500 dark:text-slate-300 hover:text-slate-600 dark:hover:text-slate-200"
+														type="button"
+														onClick={() => { setProductTags([]) }}
+													>
+														Clear
+													</button>
+												</li>
+												<li>
+													<button className="btn-xs bg-emerald-500 hover:bg-emerald-600 text-white" onClick={() => { close(); setModalOpen(true) }} type="button">New</button>
+												</li>
+											</ul>
+										</div>
+									</>
+								)}
+							</Popover.Panel>
+						</Transition>
+					</>
+				)}
 			</Popover>
 			<ModalBlank isOpen={modalOpen} setIsOpen={setModalOpen}>
 				<div className="p-5 flex space-x-4">

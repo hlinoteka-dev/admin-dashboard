@@ -127,10 +127,7 @@ export default function ProductForm({ id }: { id?: string }) {
 					</div>
 				</div>
 				<div className="px-5 pt-6">
-					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Tags</h2>
-					<div className="">
 						<DropdownTag productTags={productTags} setProductTags={setProductTags} />
-					</div>
 				</div>
 				<div className="px-5 py-6">
 					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
