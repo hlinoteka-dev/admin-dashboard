@@ -84,7 +84,7 @@ export default function EventForm({ id }: { id?: string }) {
 							Name
 							<span className="text-red-500">&nbsp;*</span>
 						</label>
-						<input id="eventName" className="form-input w-full" type="text" placeholder="Beautiful Pot" value={name} onChange={e => setName(e.target.value)} autoComplete="off" required />
+						<input id="eventName" className="form-input w-full" type="text" placeholder="Cool Event" value={name} onChange={e => setName(e.target.value)} autoComplete="off" required />
 					</div>
 					<div>
 						<label className="block text-sm font-medium mb-1" htmlFor="eventDates">
@@ -111,7 +111,7 @@ export default function EventForm({ id }: { id?: string }) {
 						<label className="block text-sm font-medium mb-1" htmlFor="eventUrl">
 							URL
 						</label>
-						<input id="eventUrl" className="form-input w-full" type="text" placeholder="Beautiful Pot" value={url} onChange={e => setUrl(e.target.value)} autoComplete="off" />
+						<input id="eventUrl" className="form-input w-full" type="text" placeholder="URL address" value={url} onChange={e => setUrl(e.target.value)} autoComplete="off" />
 					</div>
 				</div>
 				<div className="px-5 pt-6">
