@@ -130,7 +130,8 @@ export default function ProductForm({ id }: { id?: string }) {
 						<DropdownTag productTags={productTags} setProductTags={setProductTags} />
 				</div>
 				<div className="px-5 py-6">
-					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
+					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos<span className="text-red-500">&nbsp;*</span>
+</h2>
 					{images.length > 0 && (
 						images.map((image: Image, index: number) => (
 							<div className="flex flex-col gap-4 mb-4" key={index}>
@@ -171,7 +172,7 @@ export default function ProductForm({ id }: { id?: string }) {
 								<path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
 							</svg>
 							<span>Upload</span>
-							<input type="file" className="hidden" multiple onChange={uploadImages} />
+							<input type="file" className="hidden" onChange={uploadImages} required />
 						</label>
 					</div>
 				</div>

@@ -123,7 +123,7 @@ export default function EventForm({ id }: { id?: string }) {
 					</div>
 				</div>
 				<div className="px-5 pt-6">
-					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos</h2>
+					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos<span className="text-red-500">&nbsp;*</span></h2>
 					<div className="flex gap-4">
 						{images.length > 0 && (
 							images.map((image: Image) => (
@@ -161,7 +161,7 @@ export default function EventForm({ id }: { id?: string }) {
 								<path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
 							</svg>
 							<span>Upload</span>
-							<input type="file" className="hidden" multiple onChange={uploadImages} />
+							<input type="file" className="hidden" onChange={uploadImages} required />
 						</label>
 					</div>
 				</div>
