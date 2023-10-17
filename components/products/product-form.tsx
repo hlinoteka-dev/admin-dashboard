@@ -45,6 +45,7 @@ export default function ProductForm({ id }: { id?: string }) {
 		} else {
 			await axios.post('/api/products', data)
 		}
+		await revalidate("authors")
 		await revalidate("products")
 		setGetOut(true)
 	}
@@ -140,7 +141,7 @@ export default function ProductForm({ id }: { id?: string }) {
 										<div
 											className="flex flex-col btn overflow-hidden p-0 w-16 h-16 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300"
 										>
-											{/.(jpg|png)$/.test(image.url) && (
+											{/(.jpg|.jpeg|.png|.JPG|.JPEG|.PNG)$/.test(image.url) && (
 												<a
 													href={image.url}
 													target="_blank"

@@ -132,7 +132,7 @@ export default function EventForm({ id }: { id?: string }) {
 										<div
 											className="relative flex flex-col btn p-0 w-24 h-24 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300"
 										>
-											{/.(jpg|png|JPG|PNG)$/.test(image.url) && (
+											{/(.jpg|.jpeg|.png|.JPG|.JPEG|.PNG)$/.test(image.url) && (
 												<a
 													href={image.url}
 													target="_blank"

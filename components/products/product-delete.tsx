@@ -12,6 +12,7 @@ export default function ProductDelete({ id }: { id: string }) {
 	async function deleteProduct() {
 		setDangerModalOpen(false)
 		await axios.delete(`/api/products?id=${id}`)
+		await revalidate("authors")
 		await revalidate("products")
 		window.location.href = '/products'
 	}
