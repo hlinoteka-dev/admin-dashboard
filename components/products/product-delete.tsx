@@ -5,7 +5,7 @@ import ModalBlank from '@/components/modal-blank'
 import axios from 'axios'
 import { revalidate } from '@/lib/revalidate'
 
-export default function ProductDelete({ id }: { id: string }) {
+export default function ProductDelete({ id, deleteAllImages }: { id: string, deleteAllImages: Function }) {
 
 	const [dangerModalOpen, setDangerModalOpen] = useState<boolean>(false)
 
@@ -52,7 +52,7 @@ export default function ProductDelete({ id }: { id: string }) {
 						{/* Modal footer */}
 						<div className="flex flex-wrap justify-end space-x-2">
 							<button className="btn-sm border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300" onClick={() => { setDangerModalOpen(false) }}>Cancel</button>
-							<button className="btn-sm bg-rose-500 hover:bg-rose-600 text-white" onClick={() => { deleteProduct() }}>Yes, Delete it</button>
+							<button className="btn-sm bg-rose-500 hover:bg-rose-600 text-white" onClick={() => { deleteProduct(); deleteAllImages() }}>Yes, Delete it</button>
 						</div>
 					</div>
 				</div>

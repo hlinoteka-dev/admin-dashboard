@@ -7,7 +7,7 @@ interface Image {
 
 export async function POST(request: Request) {
 	const myS3client = new S3Client({
-		region: "eu-central-1",
+		region: process.env.S3_REGION!,
 		credentials: {
 			accessKeyId: process.env.S3_ACCESS_KEY!,
 			secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!
@@ -25,13 +25,13 @@ export async function POST(request: Request) {
 		}			
 		const buffer = Buffer.concat(parts)
 		await myS3client.send(new PutObjectCommand({
-			Bucket: "hlinoteka",
+			Bucket: process.env.S3_BUCKET_NAME!,
 			Key: name,
 			Body: buffer,
 			ACL: "public-read",
 			ContentType: file.type,
 		}))
-		imageObj.url = `https://hlinoteka.s3.eu-central-1.amazonaws.com/${name}`
+		imageObj.url = `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.S3_REGION}.amazonaws.com/${name}`
 		imageObj.description = ""
 		images.push(imageObj)
 	}
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
 	const myS3client = new S3Client({
-		region: "eu-central-1",
+		region: process.env.S3_REGION!,
 		credentials: {
 			accessKeyId: process.env.S3_ACCESS_KEY!,
 			secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!
@@ -50,7 +50,7 @@ export async function DELETE(request: Request) {
 	const key = url.searchParams.get("delete")
 	if (key) {
 		await myS3client.send(new DeleteObjectCommand({
-			Bucket: "hlinoteka",
+			Bucket: process.env.S3_BUCKET_NAME!,
 			Key: key,
 		}))
 		return new Response("File deleted")

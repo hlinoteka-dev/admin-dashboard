@@ -22,7 +22,11 @@ export default function ProductForm({ id }: { id?: string }) {
 	const [newProduct, setNewProduct] = useState(false)
 	const [productTags, setProductTags] = useState([]) as any[]
 	const [images, setImages] = useState([]) as any[]
+	const [unsavedImages, setUnsavedImages] = useState([]) as any[]
+	const [flaggedImages, setFlaggedImages] = useState([]) as any[]
+	const [loading, setLoading] = useState(false)
 	const [getOut, setGetOut] = useState(false)
+	const [formValidated, setFormValidated] = useState(false)
 	useEffect(() => {
 		if (!id) return
 		axios.get(`/api/products?id=${id}`).then(res => {
@@ -37,6 +41,26 @@ export default function ProductForm({ id }: { id?: string }) {
 			setImages(images)
 		})
 	}, [id])
+	useEffect(() => {
+		if (localStorage.getItem(id!)) {
+			for (const image of JSON.parse(localStorage.getItem(id!) as string)) {
+				deleteImage(image.url)
+			}
+			localStorage.removeItem(id!)
+		} else if (localStorage.getItem('temp')) {
+			for (const image of JSON.parse(localStorage.getItem('temp') as string)) {
+				deleteImage(image.url)
+			}
+			localStorage.removeItem('temp')
+		}
+	}, [])
+	useEffect(() => {
+		if (name && price && author && size && (images.length > 0)) {
+			setFormValidated(true)
+		} else {
+			setFormValidated(false)
+		}
+	}, [name, price, author, size, images])
 	async function saveProduct(e: { preventDefault: () => void }) {
 		e.preventDefault()
 		const data = { name, price, author, size, topProduct, newProduct, productTags, images }
@@ -47,6 +71,16 @@ export default function ProductForm({ id }: { id?: string }) {
 		}
 		await revalidate("authors")
 		await revalidate("products")
+		if (id) {
+			localStorage.removeItem(id as string)
+		} else if (localStorage.getItem('temp')) {
+			localStorage.removeItem('temp')
+		}
+		if (flaggedImages && flaggedImages.length > 0) {
+			for (const image of flaggedImages) {
+				deleteImage(image.url)
+			}
+		}
 		setGetOut(true)
 	}
 	if (getOut) {
@@ -58,15 +92,34 @@ export default function ProductForm({ id }: { id?: string }) {
 		for (const file of files) {
 			data.append('files', file)
 		}
+		setLoading(true)
 		const response = await axios.post('/api/upload', data)
-		setImages((prev: any) => [...prev, ...response.data])
+		setImages([...images, ...response.data])
+		setUnsavedImages([...unsavedImages, ...response.data])
+		setLoading(false)
+		if (id) {
+			localStorage.setItem(id as string, JSON.stringify([...unsavedImages, ...response.data]))
+		} else {
+			localStorage.setItem('temp', JSON.stringify([...unsavedImages, ...response.data]))
+		}
 	}
-	function deleteImage(e: any, url: string) {
-		e.preventDefault()
+	function deleteImage(url: string) {
 		const regex = /\/([^/]+)$/
 		const image = url.match(regex)![1]
 		axios.delete(`/api/upload?delete=${image}`)
-		setImages((prev: any) => prev.filter((image: Image) => image.url !== url))
+	}
+	function deleteAllImages() {
+		for (const image of images) {
+			deleteImage(image.url)
+		}
+		if (id) {
+			localStorage.removeItem(id!)
+		}
+		if (unsavedImages && unsavedImages.length > 0) {
+			for (const image of unsavedImages) {
+				deleteImage(image.url)
+			}
+		}
 	}
 	function editImageParams(e: any, image: Image) {
 		const newImages = images.map((img: Image) => {
@@ -128,44 +181,63 @@ export default function ProductForm({ id }: { id?: string }) {
 					</div>
 				</div>
 				<div className="px-5 pt-6">
-						<DropdownTag productTags={productTags} setProductTags={setProductTags} />
+					<DropdownTag productTags={productTags} setProductTags={setProductTags} />
 				</div>
 				<div className="px-5 py-6">
 					<h2 className="mb-4 font-semibold text-slate-800 dark:text-slate-100">Photos<span className="text-red-500">&nbsp;*</span>
-</h2>
+					</h2>
 					{images.length > 0 && (
-						images.map((image: Image, index: number) => (
-							<div className="flex flex-col gap-4 mb-4" key={index}>
-								<div key={image.url}>
-									<div className="flex gap-4 w-full">
-										<div
-											className="flex flex-col btn overflow-hidden p-0 w-16 h-16 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300"
-										>
-											{/(.jpg|.jpeg|.png|.JPG|.JPEG|.PNG)$/.test(image.url) && (
-												<a
-													href={image.url}
-													target="_blank"
-													className="w-full h-full"
-												>
-													<img src={image.url} alt="" className="w-full h-full object-cover" />
-												</a>
-											)}
+						<div className="mb-4 flex flex-wrap gap-4">
+							{images.map((image: Image, index: number) => (
+								<div className="flex" key={index}>
+									<div key={image.url}>
+										<div className="relative flex flex-col gap-2 w-full">
+											<div
+												className="flex flex-col btn overflow-hidden p-0 w-56 h-56 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300"
+											>
+												{/(.jpg|.jpeg|.png|.JPG|.JPEG|.PNG)$/.test(image.url) && (
+													<a
+														href={image.url}
+														target="_blank"
+														className="w-full h-full"
+													>
+														<img src={image.url} alt="" className="w-full h-full object-cover hover:scale-110 transition-all duration-150" />
+													</a>
+												)}
 
+											</div>
+
+											<input type="text" className="form-input w-full" placeholder="Pretty pot" defaultValue={image.description} onChange={(e) => editImageParams(e, image)} />
+											<button
+												className="absolute top-2 right-2 p-2 bg-white border border-rose-500 text-rose-500 rounded-full"
+												onClick={(e) => {
+													e.preventDefault()
+													setImages(images.filter((img: Image) => img.url !== image.url))
+													setFlaggedImages([...flaggedImages, image])
+												}}
+											>
+												<svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 16 16">
+													<path d="M5 7h2v6H5V7zm4 0h2v6H9V7zm3-6v2h4v2h-1v10c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V5H0V3h4V1c0-.6.4-1 1-1h6c.6 0 1 .4 1 1zM6 2v1h4V2H6zm7 3H3v9h10V5z" />
+												</svg>
+											</button>
 										</div>
-
-										<input type="text" className="form-input w-full" placeholder="Pretty pot" defaultValue={image.description} onChange={(e) => editImageParams(e, image)} />
-										<button
-											className="text-rose-500 hover:scale-110"
-											onClick={e => deleteImage(e, image.url)}
-										>
-											<svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 16 16">
-												<path d="M5 7h2v6H5V7zm4 0h2v6H9V7zm3-6v2h4v2h-1v10c0 .6-.4 1-1 1H2c-.6 0-1-.4-1-1V5H0V3h4V1c0-.6.4-1 1-1h6c.6 0 1 .4 1 1zM6 2v1h4V2H6zm7 3H3v9h10V5z" />
-											</svg>
-										</button>
 									</div>
 								</div>
-							</div>
-						))
+							))}
+							{loading && (
+								<div className="flex">
+									<div>
+										<div className="relative flex flex-col gap-2 w-full">
+											<div
+												className="flex flex-col btn overflow-hidden p-0 w-56 h-56 animate-pulse"
+											>
+												<div className="w-full h-full bg-slate-200 dark:bg-slate-900">&nbsp;</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							)}
+						</div>
 					)}
 					<div className="flex gap-6">
 						<label className="flex flex-col btn w-24 h-24 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300 cursor-pointer">
@@ -179,7 +251,7 @@ export default function ProductForm({ id }: { id?: string }) {
 				</div>
 			</div >
 			<div className="flex gap-x-4">
-				{id ? <ProductDelete id={id} /> : (<span className="mr-auto"></span>)}
+				{id ? <ProductDelete id={id} deleteAllImages={deleteAllImages} /> : (<span className="mr-auto"></span>)}
 				<Link
 					className="btn bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-600 dark:text-slate-300"
 					href="/products"
@@ -187,8 +259,9 @@ export default function ProductForm({ id }: { id?: string }) {
 					Cancel
 				</Link>
 				<button
-					className="btn bg-indigo-500 hover:bg-indigo-600 text-white"
+					className={`btn bg-indigo-500 hover:bg-indigo-600 text-white ${loading || !formValidated && 'opacity-50 cursor-not-allowed'}`}
 					type="submit"
+					disabled={loading || !formValidated}
 				>
 					{id ? 'Save' : 'Create'}
 				</button>

@@ -20,9 +20,9 @@ function EditProduct({ params }: { params: { id: string } }) {
 
 			</div>
 
-			<Banner className="mb-4">
-				If you wish to delete this product, I suggest you to delete the photos first and then delete the product. This way you will not have any orphaned photos in the database.
-			</Banner>
+			{/* <Banner type="success" className="mb-4">
+				<p className="text-sm">You can edit the product below.</p>
+			</Banner> */}
 
 			<ProductForm id={id} />
 		</div>
