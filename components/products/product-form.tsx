@@ -69,8 +69,6 @@ export default function ProductForm({ id }: { id?: string }) {
 		} else {
 			await axios.post('/api/products', data)
 		}
-		await revalidate("authors")
-		await revalidate("products")
 		if (id) {
 			localStorage.removeItem(id as string)
 		} else if (localStorage.getItem('temp')) {

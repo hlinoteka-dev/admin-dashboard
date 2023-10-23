@@ -67,7 +67,6 @@ export default function EventForm({ id }: { id?: string }) {
 		} else {
 			await axios.post('/api/events', data)
 		}
-		await revalidate("events")
 		if (id) {
 			localStorage.removeItem(id as string)
 		} else if (localStorage.getItem('temp')) {

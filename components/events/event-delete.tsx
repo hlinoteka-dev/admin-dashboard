@@ -12,7 +12,6 @@ export default function EventDelete({ id, deleteAllImages }: { id: string, delet
 	async function deleteEvent() {
 		setDangerModalOpen(false)
 		await axios.delete(`/api/events?id=${id}`)
-		await revalidate("events")
 		window.location.href = '/events'
 	}
 

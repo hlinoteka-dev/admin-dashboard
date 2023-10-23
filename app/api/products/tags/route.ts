@@ -1,5 +1,6 @@
 import { Tag } from "@/models/Tag"
 import { mongooseConnect } from "@/lib/mongoose"
+import { revalidate } from "@/lib/revalidate"
 
 export async function GET(request: Request) {
 	await mongooseConnect()
@@ -9,6 +10,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
 	await mongooseConnect()
+	await revalidate("tags")
 	const requestBody = await request.json()
 	const { name } = requestBody
 	const tagDoc = await Tag.create({
@@ -19,6 +21,7 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
 	await mongooseConnect()
+	await revalidate("tags")
 	const url = new URL(request.url)
 	const id = url.searchParams.get("id")
 	if (id) {

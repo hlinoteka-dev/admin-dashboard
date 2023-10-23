@@ -1,5 +1,6 @@
 import { Product } from "@/models/Product"
 import { mongooseConnect } from "@/lib/mongoose"
+import { revalidate } from "@/lib/revalidate"
 
 export async function GET(request: Request) {
 	await mongooseConnect()
@@ -27,6 +28,8 @@ export async function POST(request: Request) {
 		productTags,
 		images
 	})
+	await revalidate("authors")
+	await revalidate("products")
 	return new Response(productDoc)
 }
 
@@ -44,11 +47,15 @@ export async function PUT(request: Request) {
 		productTags,
 		images
 	})
+	await revalidate("authors")
+	await revalidate("products")
 	return new Response("Product updated")
 }
 
 export async function DELETE(request: Request) {
 	await mongooseConnect()
+	await revalidate("authors")
+	await revalidate("products")
 	const url = new URL(request.url)
 	const id = url.searchParams.get("id")
 	if (id) {

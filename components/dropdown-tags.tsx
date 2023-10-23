@@ -25,7 +25,6 @@ export default function DropdownTag({ productTags, setProductTags }: { productTa
 
 	async function createTag() {
 		const tag = await axios.post('/api/products/tags', { name: tagName })
-		await revalidate("tags")
 		setTags([...tags, tag.data])
 		setTagName('')
 		setModalOpen(false)
